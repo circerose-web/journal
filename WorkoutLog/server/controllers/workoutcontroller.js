@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const validateSession = require('../middleware/validate-session');
 const user = require('../models/user');
-const Journal = require('../db').import('../models/workout_logs');
+const Log = require('../db').import('../models/workout_logs');
 
 router.get('/practice', validateSession, function(req, res)
 {
@@ -10,60 +10,60 @@ router.get('/practice', validateSession, function(req, res)
 });
 
 router.post('/create', validateSession, (req, res) => {
-    const workoutEntry = {
-        title: req.body.journal.title,
-        date: req.body.journal.date,
-        entry: req.body.journal.entry,
+    const Log = {
+        title: req.body.workoutEntry.title,
+        date: req.body.workoutEntry.date,
+        entry: req.body.workoutEntry.entry,
         owner: req.user.id
     }
-        Journal.create(journalEntry)
-        .then(journal => res.status(200).json(journal))
+    Log.create(LogEntry)
+        .then(Log => res.status(200).json(log))
         .catch(err => res.status(500).json({ error: err}))    
 });
 
 router.get("/", (req, res) => {
-    Journal.findAll()
-    .then(journals => res.status(200).json(journals))
+    Log.findAll()
+    .then(workoutLog => res.status(200).json(log))
     .catch(err => res.status(500).json({ error: err}))
 });
 
 router.get('/mine', validateSession, (req, res) => {
     let userid = req.user.id
-    Journal.findAll({
+    Log.findAll({
         where: { owner: userid }
     })
-    .then(journals => res.status(200).json(journals))
+    .then(woLog => res.status(200).json(Log))
     .catch(err => res.status(500).json({ error: err }))
 });
 
 router.get('/:title', function (req, res){
     let title = req.params.title;
 
-    Journal.findAll({
+    Log.findAll({
         where: { title, title }
     })
-    .then(journals => res.status(200).json(journals))
+    .then(Log => res.status(200).json(Log))
     .catch(err => res.status(500).json({ error, err }))
 });
 
-router.put("/update/:entryID", validateSession, function (req, res) {
-    const updateJournalEntry = {
-        title: req.body.journal.title,
-        date: req.body.journal.date,
-        entry: req.body.journal.entry,
+router.put("/:id", validateSession, function (req, res) {
+    const updateLog= {
+        title: req.body.log.title,
+        date: req.body.log.date,
+        entry: req.body.log.entry,
     };
     const query = { where: { id: req.params.entryId, owner: req.user.id }};
 
-    Journal.update(updateJournalEntry, query)
-    .then((journals) => res.status(200).json(journals))
+    Log.update(updateLog, query)
+    .then((logs) => res.status(200).json(logs))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-router.delete("/delete/:id", validateSession, function (req, res) {
+router.delete("/:id", validateSession, function (req, res) {
     const query = { where: { id: req.params.id, owner: req.user.id}};
 
-    Journal.destroy(query)
-    .then(() => res.status(200).json({ message: "Journal entry removed"}))
+    Log.destroy(query)
+    .then(() => res.status(200).json({ message: "Workout entry removed"}))
     .catch((err) => res.status(500).json({ error: err}));
 });
 
