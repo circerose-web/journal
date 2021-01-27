@@ -1,10 +1,10 @@
 require("dotenv").config();
-let express = require('express');
-let app = express();
-let sequelize = require('./db');
+const express = require('express');
+const app = express();
+const sequelize = require('./db');
 
-let workout = require('./controllers/workoutcontroller')
-let user = require('./controllers/usercontroller');
+let workout = require('./controllers/log-controller')
+let user = require('./controllers/user-controller');
 
 sequelize.sync();
 //sequelize.sync({force: true})
