@@ -1,19 +1,20 @@
-module.exports = (sequelize, DataTypes) => {
+module.exports = function (sequelize, DataTypes) {
     const Log = sequelize.define('log', {
-        title: {
+        description: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        date: {
+        definition: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        entry: {
+        result: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        owner: {
-            type: DataTypes.INTEGER
+        owner_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     })
     return Log;

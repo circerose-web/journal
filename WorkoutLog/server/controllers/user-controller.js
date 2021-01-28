@@ -18,7 +18,8 @@ router.post("/register", (req, res) => {
         sessionToken: token
     });
     })
-    .catch(err => res.status(500).json({error: err
+    .catch(err => res.status(500).json({
+        error: err
     }))
 });
 
@@ -26,7 +27,7 @@ router.post('/login', (req, res) => {
     User.findOne({ where: { username: req.body.user.username}})
     .then(function loginSuccess(user) {
         if (user) {
-            bcrypt.compare(req.body.user.passwordhash, (err, matches) => {
+            bcrypt.compare(req.body.user.passwordhash, user.passwordhash, (err, matches) => {
                 if  (matches) {
                     const token = jwt.sign({ id: user.id}, process.env.JWT_SECRET, {
                         expiresIn: 60*60*24,

@@ -1,7 +1,5 @@
-const sequelize = require("../db")
-
-module.exports = function(sequelize, DataTypes){
-    const Log = sequelize.define('log', {
+module.exports = (sequelize, DataTypes) => {
+    const User = sequelize.define('user', {
         description: {
             type: DataTypes.STRING,
             allowNull: false
