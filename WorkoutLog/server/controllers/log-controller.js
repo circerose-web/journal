@@ -12,7 +12,7 @@ router.post("/create", (req, res) => {
         result: req.body.log.result,
         owner_id: req.user.id
     })
-    .then(log => res.status(200).json({log}))
+    .then(log => res.status(200).json(log))
     .catch(err => res.status(500).json({error: err}))
 });
 
@@ -26,7 +26,7 @@ router.delete("/:id", function (req, res) {
 
     Log.destroy(query)
     .then(() => res.status(200).json({message: "Workout Deleted!"}))
-    .catch((err) => res.status(500).json({error: err}));
+    .catch((err) => res.status(500).json({error: err}))
 });
     router.put("/:id", function (req, res) {
         const updateLog = {
